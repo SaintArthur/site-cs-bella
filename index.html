@@ -1379,10 +1379,10 @@ input,select,textarea{transition:border-color .22s ease,box-shadow .22s ease,bac
       <form id="lead" novalidate>
         <input type="text" name="site" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" aria-hidden="true">
         <div class="fgrid">
-          <div class="f"><label for="f-nome">Seu nome</label><input id="f-nome" name="nome" autocomplete="name" placeholder="Como te chamam"><span class="err">Escreve o seu nome.</span></div>
-          <div class="f"><label for="f-email">E-mail</label><input id="f-email" name="email" type="email" autocomplete="email" placeholder="voce@seusalao.com"><span class="err">Confere o e-mail.</span></div>
-          <div class="f"><label for="f-wpp">WhatsApp</label><input id="f-wpp" name="wpp" inputmode="tel" autocomplete="tel" placeholder="(27) 9 0000-0000"><span class="err">Confere o número, faltou dígito.</span></div>
-          <div class="f"><label for="f-esp">Nome do salão ou clínica</label><input id="f-esp" name="espaco" autocomplete="organization" placeholder="Ex.: Studio Bella"><span class="err">Escreve o nome do seu espaço.</span></div>
+          <div class="f"><label for="f-nome">Seu nome</label><input id="f-nome" name="nome" autocomplete="name" placeholder="Nome e sobrenome"><span class="err">Informe o seu nome.</span></div>
+          <div class="f"><label for="f-email">E-mail</label><input id="f-email" name="email" type="email" autocomplete="email" placeholder="voce@seusalao.com"><span class="err">Informe um e-mail válido.</span></div>
+          <div class="f"><label for="f-wpp">WhatsApp</label><input id="f-wpp" name="wpp" inputmode="tel" autocomplete="tel" placeholder="(27) 90000-0000"><span class="err">Informe o WhatsApp com DDD.</span></div>
+          <div class="f"><label for="f-esp">Nome do salão ou clínica</label><input id="f-esp" name="espaco" autocomplete="organization" placeholder="Ex.: Studio Marina"><span class="err">Informe o nome do seu espaço.</span></div>
           <div class="f"><label for="f-uni">Quantas unidades</label>
             <select id="f-uni" name="unidades"><option>1</option><option>2</option><option>3 ou mais</option></select></div>
           <div class="f"><label for="f-time">Quantos profissionais</label>
@@ -1401,7 +1401,7 @@ input,select,textarea{transition:border-color .22s ease,box-shadow .22s ease,bac
             </div>
             <div class="f full" id="wrap-outro" hidden style="margin-top:12px">
               <label for="f-outro">O que mais você precisa?</label>
-              <input id="f-outro" name="outro" placeholder="Conta em uma linha">
+              <input id="f-outro" name="outro" placeholder="Ex.: controle de comissão">
             </div>
           </fieldset>
 
@@ -1413,7 +1413,7 @@ input,select,textarea{transition:border-color .22s ease,box-shadow .22s ease,bac
             </div>
             <div class="f full" id="wrap-qual" hidden style="margin-top:12px">
               <label for="f-qual">Qual?</label>
-              <input id="f-qual" name="qual" placeholder="Nome do sistema que você usa hoje">
+              <input id="f-qual" name="qual" placeholder="Nome do sistema">
             </div>
           </fieldset>
         </div>
@@ -1424,7 +1424,7 @@ input,select,textarea{transition:border-color .22s ease,box-shadow .22s ease,bac
       <div class="thanks" role="status" aria-live="polite">
         <svg><use href="#check"/></svg>
         <h3>Recebido!</h3>
-        <p>Nosso time te chama no WhatsApp pra montar o seu teste. O contato chega em horário comercial, de segunda a sábado, das 8h às 18h.</p>
+        <p>Nosso time te chama no WhatsApp pra montar o seu teste. O contato chega em horário comercial, de segunda a sábado.</p>
         <a class="wa-link" href="https://wa.me/5527999941710?text=Ol%C3%A1%2C%20acabei%20de%20preencher%20o%20formul%C3%A1rio%20do%20CS%20Bella" target="_blank" rel="noopener"><svg><use href="#wa"/></svg><u>Falar agora no WhatsApp</u></a>
       </div>
     </div>
@@ -1441,7 +1441,7 @@ input,select,textarea{transition:border-color .22s ease,box-shadow .22s ease,bac
       <li><a href="#como">Como funciona</a></li>
       <li><a href="#faq">Dúvidas</a></li>
       <li><a href="https://www.csbarber.ia.br/">CS Barber</a></li>
-      <li><a href="https://instagram.com/cs.bella" target="_blank" rel="noopener">Instagram</a></li>
+      <li><a href="https://www.instagram.com/__csbella" target="_blank" rel="noopener">Instagram</a></li>
     </ul>
     <a class="cs" href="https://www.conectasolucoes.ia.br/"><svg><use href="#hex"/></svg>Um produto Conecta Soluções</a>
     <div class="fleg"><span>CONECTA SOLUÇÕES E SERVIÇOS LTDA</span> <span>CNPJ 66.965.509/0001-87</span></div>
@@ -1660,18 +1660,23 @@ if(RM.matches){
     const usa=marcado?marcado.value:'';
     const qual=form.qual.value.trim();
 
+    /* O asterisco é a marcação de negrito do WhatsApp: o rótulo fica destacado e
+       a mensagem vira uma ficha legível de relance. Campo sem resposta não vira
+       linha: "não informado" só ocupa espaço e parece falha de preenchimento. */
+    const campo=(rotulo,valor)=>valor?`*${rotulo}:* ${valor}`:null;
+    const sistema=usa==='Sim'?(qual||'sim, não informou qual'):usa==='Não'?'nenhum':'';
     const linhas=[
       `Olá! Quero testar o CS Bella por 15 dias.`,
       ``,
-      `Nome: ${nome}`,
-      `WhatsApp: ${tel.value}`,
-      `E-mail: ${email}`,
-      `Salão/clínica: ${esp}`,
-      `Unidades: ${form.unidades.value}`,
-      `Profissionais: ${form.profissionais.value}`,
-      `Interesses: ${interesses.length?interesses.join(', '):'ainda não sei'}`,
-      `Já usa sistema: ${usa?usa:'não informado'}${usa==='Sim'&&qual?' ('+qual+')':''}`
-    ];
+      campo('Nome',nome),
+      campo('WhatsApp',tel.value),
+      campo('E-mail',email),
+      campo('Espaço',esp),
+      campo('Unidades',form.unidades.value),
+      campo('Profissionais',form.profissionais.value),
+      campo('Interesse',interesses.join(', ')),
+      campo('Sistema atual',sistema)
+    ].filter(l=>l!==null);
     window.open('https://wa.me/5527999941710?text='+encodeURIComponent(linhas.join('\n')),'_blank','noopener');
     box.classList.add('sent');
     box.scrollIntoView({block:'center',behavior:RM.matches?'auto':'smooth'});

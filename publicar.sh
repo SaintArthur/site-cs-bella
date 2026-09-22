@@ -10,7 +10,7 @@
 # publicado sai limpo, e sai limpo SEMPRE — inclusive das anotações que ainda nem foram escritas.
 set -euo pipefail
 BUCKET=csbella-site-359334423263
-DIST=DISTRIBUICAO_A_DEFINIR
+DIST=E1GPUXXBW4UFM9
 REGIAO=sa-east-1
 
 TMP=$(mktemp -d)

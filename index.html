@@ -733,12 +733,17 @@ input,select,textarea{transition:border-color .22s ease,box-shadow .22s ease,bac
        design, o letreiro é texto de verdade: diz Bella, é lido por leitor de tela, acompanha
        o tema e escala sem perder nitidez. O símbolo hexagonal (.lg-sym) continua sendo o SVG,
        porque ele não tem nome escrito dentro. */
-    .brand .lg-word{height:auto;display:inline-flex;align-items:baseline;gap:.06em;
+    .lg-word{height:auto;display:inline-flex;align-items:baseline;gap:.06em;
       font-family:'Poppins',system-ui,sans-serif;font-weight:300;font-size:26px;line-height:1;
       letter-spacing:.06em;color:var(--plum);white-space:nowrap}
-    .brand .lg-word i{font-family:'Dancing Script','Brush Script MT',cursive;font-style:normal;
+    .lg-word i{font-family:'Dancing Script','Brush Script MT',cursive;font-style:normal;
       font-weight:600;font-size:1.5em;letter-spacing:0;line-height:1}
     .nav.is-scrolled .brand .lg-word{font-size:22px}
+    footer .lg-word{font-size:21px}
+    /* Na seção de contato o fundo é escuro: o letreiro acompanha o hexágono em branco. */
+    .cta .lg-word{font-size:clamp(22px,3.4vw,30px);color:#fff}
+    .cta-marca{display:flex;flex-direction:column;align-items:flex-start;gap:clamp(10px,1.6vw,16px);
+      margin-bottom:clamp(18px,3vw,28px)}
   </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"CS Bella","applicationCategory":"BusinessApplication","operatingSystem":"Web, iOS, Android","url":"https://www.csbella.ia.br/","description":"Sistema de gestão para salão de beleza e clínica de estética: agenda, clientes, equipe e pagamentos em um só lugar, com módulos que crescem junto com o negócio.","inLanguage":"pt-BR","publisher":{"@type":"Organization","name":"Conecta Soluções","url":"https://www.conectasolucoes.ia.br/"}}</script>
 <!-- FAQPage gerado A PARTIR das perguntas e respostas visíveis na
@@ -1350,7 +1355,10 @@ input,select,textarea{transition:border-color .22s ease,box-shadow .22s ease,bac
   <svg class="hex" aria-hidden="true"><use href="#hex"/></svg>
   <div class="wrap">
     <div class="rv-g">
-      <svg class="cta-logo" viewBox="0 0 1645 1911" aria-hidden="true"><use href="#logo"/></svg>
+      <div class="cta-marca">
+        <svg class="cta-logo" viewBox="410 0 810 910" aria-hidden="true"><use href="#logo"/></svg>
+        <span class="lg-word" role="img" aria-label="CS Bella">CS&nbsp;<i>Bella</i></span>
+      </div>
       <h2>Teste o CS Bella por 15 dias <em>no seu salão.</em></h2>
       <p class="pitch">Preencha e a gente monta o seu teste com os módulos que fazem sentido pra sua operação. O contato chega pelo WhatsApp, em horário comercial.</p>
       <ul class="seal">
@@ -1363,10 +1371,10 @@ input,select,textarea{transition:border-color .22s ease,box-shadow .22s ease,bac
       <form id="lead" novalidate>
         <input type="text" name="site" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" aria-hidden="true">
         <div class="fgrid">
-          <div class="f"><label for="f-nome">Seu nome</label><input id="f-nome" name="nome" autocomplete="name" placeholder="Como prefere ser chamada"><span class="err">Escreve o seu nome.</span></div>
+          <div class="f"><label for="f-nome">Seu nome</label><input id="f-nome" name="nome" autocomplete="name" placeholder="Como te chamam"><span class="err">Escreve o seu nome.</span></div>
           <div class="f"><label for="f-email">E-mail</label><input id="f-email" name="email" type="email" autocomplete="email" placeholder="voce@seusalao.com"><span class="err">Confere o e-mail.</span></div>
           <div class="f"><label for="f-wpp">WhatsApp</label><input id="f-wpp" name="wpp" inputmode="tel" autocomplete="tel" placeholder="(27) 9 0000-0000"><span class="err">Confere o número, faltou dígito.</span></div>
-          <div class="f full"><label for="f-esp">Nome do salão ou clínica</label><input id="f-esp" name="espaco" autocomplete="organization" placeholder="Como a cliente conhece"><span class="err">Escreve o nome do seu espaço.</span></div>
+          <div class="f"><label for="f-esp">Nome do salão ou clínica</label><input id="f-esp" name="espaco" autocomplete="organization" placeholder="Ex.: Studio Bella"><span class="err">Escreve o nome do seu espaço.</span></div>
           <div class="f"><label for="f-uni">Quantas unidades</label>
             <select id="f-uni" name="unidades"><option>1</option><option>2</option><option>3 ou mais</option></select></div>
           <div class="f"><label for="f-time">Quantos profissionais</label>
@@ -1418,7 +1426,7 @@ input,select,textarea{transition:border-color .22s ease,box-shadow .22s ease,bac
 
 <footer>
   <div class="wrap cols">
-    <svg viewBox="30 1170 1590 480" role="img" aria-label="CS Bella" style="height:30px;width:auto;--cs-fill:var(--plum)"><use href="#logo"/></svg>
+    <span class="lg-word" role="img" aria-label="CS Bella">CS&nbsp;<i>Bella</i></span>
     <ul>
       <!--<li><a href="#sistema">O sistema</a></li>--><!-- dobra 3 oculta -->
       <li><a href="#modulos">Módulos</a></li>
@@ -1588,10 +1596,24 @@ if(RM.matches){
   const box=document.getElementById('leadbox'),form=document.getElementById('lead');
   if(!form)return;
   const tel=document.getElementById('f-wpp');
+  /* O separador só entra quando há dígito depois dele. Com ">6" o hífen voltava
+     assim que era apagado, e o backspace travava em "(27) 99994-". */
   tel.addEventListener('input',()=>{
-    let v=tel.value.replace(/\D/g,'').slice(0,11);
-    tel.value=v.length>6?`(${v.slice(0,2)}) ${v.slice(2,7)}-${v.slice(7)}`
+    const v=tel.value.replace(/\D/g,'').slice(0,11);
+    tel.value=v.length>7?`(${v.slice(0,2)}) ${v.slice(2,7)}-${v.slice(7)}`
              :v.length>2?`(${v.slice(0,2)}) ${v.slice(2)}`:v;
+  });
+
+  /* Nome não leva número nem símbolo: filtra na digitação e na colagem, sem
+     perder a posição do cursor. A faixa cobre o acento do português. */
+  const nome=document.getElementById('f-nome');
+  const FORA_DO_NOME=/[^A-Za-zÀ-ÖØ-öø-ÿ'’\- ]/g;
+  nome.addEventListener('input',()=>{
+    const v=nome.value,limpo=v.replace(FORA_DO_NOME,'');
+    if(limpo===v)return;
+    const pos=Math.max(0,nome.selectionStart-(v.length-limpo.length));
+    nome.value=limpo;
+    nome.setSelectionRange(pos,pos);
   });
 
   /* "Outro" abre o campo aberto; "Sim" abre o campo "qual?" */

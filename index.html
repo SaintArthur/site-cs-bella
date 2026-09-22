@@ -652,13 +652,21 @@ section{padding:var(--s) 0;position:relative}
 .f input[aria-invalid="true"]~.err{display:block}
 .fset{grid-column:1/-1;border:0;margin-top:6px}
 .fset legend{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);font-weight:500;margin-bottom:12px}
-.chips{display:flex;flex-wrap:wrap;gap:9px}
-.chips label{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:999px;padding:10px 15px;min-height:42px;font-size:13.5px;color:var(--plum-2);cursor:pointer;transition:border-color .2s,background .2s,color .2s}
+/* Duas colunas fixas: em pílula solta, "Outro" sobrava sozinho ao lado de uma
+   coluna vazia. Dois rótulos não cabem em 197px e quebram em duas linhas, então
+   o canto deixa de ser pílula e vira caixa — linha dupla em pílula fica estranha. */
+.chips{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;align-items:stretch}
+.chips label:last-child{grid-column:1/-1}
+@media(max-width:560px){.chips{grid-template-columns:1fr}}
+.chips label{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:12px;padding:11px 14px;min-height:46px;font-size:13.5px;line-height:1.3;color:var(--plum-2);cursor:pointer;transition:border-color .2s,background .2s,color .2s}
 .chips input{position:absolute;opacity:0;width:0;height:0}
-.chips label i{width:15px;height:15px;border-radius:5px;border:1px solid var(--rose);flex:none;display:grid;place-items:center;transition:background .2s,border-color .2s}
-.chips label i::after{content:"";width:7px;height:7px;border-radius:2px;background:#fff;transform:scale(0);transition:transform .2s var(--ease)}
+/* Marca de seleção é um "v" de verdade. O quadradinho branco que havia antes
+   não lia como confirmação — parecia um estado intermediário. */
+.chips label i{width:18px;height:18px;border-radius:6px;border:1.5px solid var(--line);background:#fff;flex:none;position:relative;transition:background .2s,border-color .2s}
+.chips label i::after{content:"";position:absolute;left:5.5px;top:2px;width:4px;height:9px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg) scale(0);transform-origin:center;transition:transform .18s var(--ease)}
+.chips label:hover i{border-color:var(--rose)}
 .chips input:checked+i{background:var(--rose-d);border-color:var(--rose-d)}
-.chips input:checked+i::after{transform:scale(1)}
+.chips input:checked+i::after{transform:rotate(45deg) scale(1)}
 .chips label:has(input:checked){border-color:var(--rose);background:var(--rose-soft);color:var(--plum)}
 .chips input:focus-visible+i{outline:2px solid var(--rose-d);outline-offset:2px}
 .radios{display:flex;gap:9px;flex-wrap:wrap}
@@ -1411,7 +1419,7 @@ input,select,textarea{transition:border-color .22s ease,box-shadow .22s ease,bac
         </div>
         <button class="btn btn-rose" type="submit">Começar meu teste grátis <svg><use href="#arrow"/></svg></button>
         <a class="wa-link escape" href="https://wa.me/5527999941710?text=Ol%C3%A1%2C%20prefiro%20conversar%20antes%20de%20preencher%20o%20formul%C3%A1rio" target="_blank" rel="noopener"><svg><use href="#wa"/></svg><span>Prefere conversar primeiro? <u>Chama no WhatsApp.</u></span></a>
-        <small>Atendimento de segunda a sábado, das 8h às 18h.</small>
+        <small>Atendimento de segunda a sábado.</small>
       </form>
       <div class="thanks" role="status" aria-live="polite">
         <svg><use href="#check"/></svg>

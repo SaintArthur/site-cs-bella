@@ -726,7 +726,20 @@ input,select,textarea{transition:border-color .22s ease,box-shadow .22s ease,bac
   .nav.compact .wrap{height:auto}
   .dock{transition:none}
 }
-</style>
+
+    /* Letreiro da marca em TEXTO, não em traçado.
+       O logo mestre (#logo) desenha "CS Beauty" como 33 paths — letra ali é forma, não
+       caractere, e renomear a marca não redesenha forma. Enquanto não vier um logo novo do
+       design, o letreiro é texto de verdade: diz Bella, é lido por leitor de tela, acompanha
+       o tema e escala sem perder nitidez. O símbolo hexagonal (.lg-sym) continua sendo o SVG,
+       porque ele não tem nome escrito dentro. */
+    .brand .lg-word{height:auto;display:inline-flex;align-items:baseline;gap:.06em;
+      font-family:'Poppins',system-ui,sans-serif;font-weight:300;font-size:26px;line-height:1;
+      letter-spacing:.06em;color:var(--plum);white-space:nowrap}
+    .brand .lg-word i{font-family:'Dancing Script','Brush Script MT',cursive;font-style:normal;
+      font-weight:600;font-size:1.5em;letter-spacing:0;line-height:1}
+    .nav.is-scrolled .brand .lg-word{font-size:22px}
+  </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"CS Bella","applicationCategory":"BusinessApplication","operatingSystem":"Web, iOS, Android","url":"https://conectasolucoes.ia.br/beauty","description":"Sistema de gestão para salão de beleza e clínica de estética: agenda, clientes, equipe e pagamentos em um só lugar, com módulos que crescem junto com o negócio.","inLanguage":"pt-BR","publisher":{"@type":"Organization","name":"Conecta Soluções","url":"https://conectasolucoes.ia.br"}}</script>
 <!-- FAQPage gerado A PARTIR das perguntas e respostas visíveis na
      dobra do FAQ. O Google exige que o texto do dado estruturado
@@ -842,7 +855,7 @@ input,select,textarea{transition:border-color .22s ease,box-shadow .22s ease,bac
   <div class="wrap">
     <a class="brand" href="#top" aria-label="CS Bella — início">
       <svg class="lg-sym" viewBox="410 0 810 910" aria-hidden="true"><use href="#logo"/></svg>
-      <svg class="lg-word" viewBox="30 1170 1590 480" role="img" aria-label="CS Bella"><use href="#logo"/></svg>
+      <span class="lg-word" role="img" aria-label="CS Bella">CS&nbsp;<i>Bella</i></span>
     </a>
     <ul>
       <li><a href="#dores">Dores</a></li>

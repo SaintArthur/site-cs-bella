@@ -25,6 +25,10 @@ node ferramentas/limpar-comentarios.js index.html "$TMP/index.html"
 
 aws s3 cp "$TMP/index.html" "s3://$BUCKET/index.html" --region "$REGIAO" \
   --content-type "text/html; charset=utf-8"
+aws s3 cp robots.txt "s3://$BUCKET/robots.txt" --region "$REGIAO" \
+  --content-type "text/plain; charset=utf-8"
+aws s3 cp sitemap.xml "s3://$BUCKET/sitemap.xml" --region "$REGIAO" \
+  --content-type "application/xml; charset=utf-8"
 aws s3 sync assets "s3://$BUCKET/assets" --region "$REGIAO" --delete
 aws cloudfront create-invalidation --distribution-id "$DIST" --paths "/*" \
   --query 'Invalidation.{Id:Id,Status:Status}' --output text

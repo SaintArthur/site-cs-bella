@@ -1,60 +1,44 @@
 # Pendências — landing page do CS Bella
 
-Levantado em 23/09/2026. Números conferidos por contagem no `index.html` desta data.
+Levantado em 23/09/2026 e atualizado no mesmo dia, depois das correções.
 
 ---
 
-## 1. O trial é de 7 dias — aqui ainda diz 15
+## Resolvido
 
-**23 ocorrências** de "15 dias", em 16 contextos distintos. O CS Barber já foi
-corrigido (commit `b848887`, 19 pontos); aqui não.
+- **Trial de 7 dias**: as 23 ocorrências de "15 dias" viraram 7 — meta
+  description, og:description, CTAs, selos, dobra "como funciona", FAQ, FAQPage
+  do JSON-LD, título da dobra do formulário, mensagem que o formulário monta e
+  os comentários de briefing. O FAQPage continua idêntico ao FAQ visível (8
+  perguntas, conferido por script).
+- **WhatsApp**: os 6 links `wa.me` e o montado pelo JavaScript do formulário
+  apontam para `5527999073651`, o comercial da Conecta — o mesmo do site
+  institucional, por decisão do dono. O número pessoal do Matheus
+  (`5527999941710`) saiu.
+- **CNPJ** saiu do rodapé, por decisão do dono. A razão social ficou.
+- **Aviso de privacidade (LGPD)** abaixo do botão do formulário, com o mesmo
+  texto do CS Barber: o envio abre o WhatsApp (serviço da Meta) com a mensagem
+  pronta, ela só chega à Conecta Soluções quando a pessoa toca em Enviar, o site
+  não guarda os dados. Se entrar webhook, o aviso tem que mudar junto.
+- **Formulário**, testado ao vivo com saídas interceptadas: mesmas correções do
+  CS Barber (WhatsApp com +55/0/DDI estrangeiro, DDD 55 protegido, "Falta só
+  enviar!" no lugar do "Recebido!" prematuro com link para reabrir, selects sem
+  escolha fora da mensagem, "Outro" sem duplicar, campos com 16px, botão
+  desabilitado sem JavaScript, foco e erros), mais: fallback quando o pop-up é
+  bloqueado (o `window.open` com 'noopener' sempre devolvia null) e erros
+  ligados aos campos por `aria-describedby`.
+- **Responsividade**: a 320px a página ficava 8px mais larga que a tela por
+  causa dos cartões de perfil (`.pain-grid .pc`); corrigido.
 
-Onde costuma aparecer, pelo que o Barber mostrou: meta description, og:description,
-CTA do cabeçalho, do menu mobile, do hero, da dobra 2 e do dock, os dois selos de
-confiança, o passo da dobra "como funciona", respostas do FAQ, as mesmas respostas
-no FAQPage do JSON-LD, o título da dobra do formulário e a mensagem que o
-formulário monta para o WhatsApp.
+## Decidido pelo dono
 
-**Duas armadilhas ao corrigir:**
-
-1. **Os comentários de briefing dentro do arquivo também afirmam 15 dias** — há
-   linhas como "O trial comunicado é o de 15 dias do sistema" e uma tabela com
-   "Condições reais do trial de 15 dias". Trocar só o número visível deixa o
-   comentário contradizendo a página, e o próximo a abrir o arquivo "corrige" de
-   volta. Reescreva a regra junto.
-2. **O FAQPage do JSON-LD precisa continuar idêntico palavra por palavra ao FAQ
-   visível.** Dado estruturado divergente derruba o rich result. Confira com script,
-   comparando pergunta a pergunta, depois de trocar.
-
-## 2. A página afirma "grátis" e o FAQ nega
-
-**5 ocorrências** de "grátis": "Testar 15 dias grátis", "Quero testar 15 dias
-grátis", "Começar meu teste grátis". Mas o FAQ responde que as condições do
-período são combinadas na conversa com o comercial, e os comentários do arquivo
-registram que a condição do trial não está fechada — foi por isso que o "Sem
-cartão" saiu dos selos.
-
-A página afirma e nega na mesma tela. **Decidir:** é grátis ou não?
-
-## 3. Sem aviso de privacidade (LGPD)
-
-O formulário coleta nome, e-mail, WhatsApp e dados do negócio. Zero ocorrências de
-"LGPD" ou "privacidade" no arquivo. Vale para os três sites.
-
-## 4. WhatsApp pessoal em 7 links
-
-São 7 links para `wa.me/5527999941710`, anotado no repositório do Barber como o
-número pessoal do Matheus, a trocar pelo comercial antes de escalar verba.
-Contar também a ocorrência montada no JavaScript do formulário.
-
----
+- **"Grátis"**: o teste de 7 dias é grátis. Os botões continuam com "grátis" e,
+  por decisão do dono, o FAQ ("As condições do período são combinadas na
+  conversa com o comercial") fica como está.
 
 ## Publicação
 
 Este site publica por **AWS** (`./publicar.sh` → S3 + CloudFront). O push para o
-GitHub **não** coloca nada no ar.
-
-A ferramenta de limpeza passou de Python para **Node** — confirme `node --version`
-na máquina que tem o `aws` antes de rodar. O `publicar.sh` roda os 34 testes de
-`ferramentas/testar-limpeza.js` antes de enviar; se a ferramenta regredir, a
-publicação para sozinha.
+GitHub **não** coloca nada no ar: tudo acima só chega ao público depois de rodar
+o `./publicar.sh` numa máquina com a credencial `aws` e Node. O script roda os 34
+testes de `ferramentas/testar-limpeza.js` antes de enviar.

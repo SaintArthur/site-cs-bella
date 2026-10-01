@@ -199,7 +199,7 @@ NÚMERO DE WHATSAPP · COMERCIAL DA CONECTA
   padding:3px 7px;border-radius:2px;
   font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
   line-height:1;white-space:nowrap;background:var(--rose-deep);color:#fff}
-.nav .brand+.fita{margin-right:auto;margin-left:12px}
+.marca-grupo{display:flex;align-items:center;gap:12px}
 .fitado{position:relative;display:block;margin-top:20px}
 .fitado>.fita{position:absolute;z-index:2;top:-7px;right:16px;
   transform:rotate(-3deg);box-shadow:0 4px 12px -4px rgba(0,0,0,.5)}
@@ -896,11 +896,13 @@ input,select,textarea{transition:border-color .22s ease,box-shadow .22s ease,bac
 
 <header class="nav">
   <div class="wrap">
-    <a class="brand" href="#top" aria-label="CS Bella — início">
-      <svg class="lg-sym" viewBox="410 0 810 910" aria-hidden="true"><use href="#logo"/></svg>
-      <span class="lg-word" role="img" aria-label="CS Bella">CS&nbsp;<i>Bella</i></span>
-    </a>
-    <span class="fita">Em breve</span>
+    <div class="marca-grupo">
+      <a class="brand" href="#top" aria-label="CS Bella — início">
+        <svg class="lg-sym" viewBox="410 0 810 910" aria-hidden="true"><use href="#logo"/></svg>
+        <span class="lg-word" role="img" aria-label="CS Bella">CS&nbsp;<i>Bella</i></span>
+      </a>
+      <span class="fita">Em breve</span>
+    </div>
     <ul>
       <li><a href="#dores">Dores</a></li>
       <!--<li><a href="#sistema">O sistema</a></li>--><!-- dobra 3 oculta -->

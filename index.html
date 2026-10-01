@@ -195,6 +195,18 @@ NÚMERO DE WHATSAPP · COMERCIAL DA CONECTA
 .nav .wrap{display:flex;align-items:center;justify-content:space-between;height:76px}
 .brand{display:flex;align-items:center;gap:12px}
 .brand .lg-sym{height:44px;width:auto}.brand .lg-word{height:44px;width:auto;--cs-fill:var(--plum)}
+.fita{display:inline-flex;align-items:center;flex:none;
+  padding:3px 7px;border-radius:2px;
+  font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
+  line-height:1;white-space:nowrap;background:var(--rose-deep);color:#fff}
+.nav .brand+.fita{margin-right:auto;margin-left:12px}
+.fitado{position:relative;display:block;margin-top:20px}
+.fitado>.fita{position:absolute;z-index:2;top:-7px;right:16px;
+  transform:rotate(-3deg);box-shadow:0 4px 12px -4px rgba(0,0,0,.5)}
+.fitado>.btn{margin-top:0;width:100%}
+.btn[disabled]{cursor:not-allowed;filter:grayscale(.45);opacity:.62;
+  transform:none!important;box-shadow:none}
+.btn[disabled]:hover,.btn[disabled]:active{transform:none;filter:grayscale(.45)}
 .nav ul{display:flex;gap:28px;list-style:none;font-size:13px;font-weight:500;color:var(--plum-2)}
 .nav ul a:hover{color:var(--rose-ui)}
 .nav ul a.on{color:var(--rose-ui)}
@@ -888,6 +900,7 @@ input,select,textarea{transition:border-color .22s ease,box-shadow .22s ease,bac
       <svg class="lg-sym" viewBox="410 0 810 910" aria-hidden="true"><use href="#logo"/></svg>
       <span class="lg-word" role="img" aria-label="CS Bella">CS&nbsp;<i>Bella</i></span>
     </a>
+    <span class="fita">Em breve</span>
     <ul>
       <li><a href="#dores">Dores</a></li>
       <!--<li><a href="#sistema">O sistema</a></li>--><!-- dobra 3 oculta -->
@@ -1435,7 +1448,10 @@ input,select,textarea{transition:border-color .22s ease,box-shadow .22s ease,bac
             </div>
           </fieldset>
         </div>
-        <button class="btn btn-rose" type="submit" disabled>Começar meu teste grátis <svg><use href="#arrow"/></svg></button>
+        <span class="fitado">
+          <span class="fita">Em breve</span>
+          <button class="btn btn-rose" type="submit" disabled>Começar meu teste grátis <svg><use href="#arrow"/></svg></button>
+        </span>
         <small>Ao enviar, abrimos o WhatsApp (serviço da Meta) com uma mensagem pronta com os dados que você preencheu. Ela só chega à Conecta Soluções quando você tocar em enviar lá. Este site não guarda esses dados, e o seu contato é usado só para falar sobre o seu pedido de teste, como pede a LGPD.</small>
         <noscript><small>Este formulário precisa de JavaScript para montar a sua mensagem. Fale direto com a gente pelo WhatsApp no link abaixo.</small></noscript>
         <a class="wa-link escape" href="https://wa.me/5527999073651?text=Ol%C3%A1%2C%20prefiro%20conversar%20antes%20de%20preencher%20o%20formul%C3%A1rio" target="_blank" rel="noopener"><svg><use href="#wa"/></svg><span>Prefere conversar primeiro? <u>Chama no WhatsApp.</u></span></a>
@@ -1713,9 +1729,11 @@ if(RM.matches){
   form.addEventListener('input',reconfere);
   form.addEventListener('change',reconfere);
 
+  const EM_BREVE=true;
   const enviar=form.querySelector('button[type="submit"]'),reenviar=document.getElementById('wa-reenviar');
   form.addEventListener('submit',e=>{
     e.preventDefault();
+    if(EM_BREVE)return;
     if(form.site.value)return;                       /* honeypot */
     /* de novo aqui: o autofill nem sempre dispara "input", e aí a máscara não rodou */
     {const c=comDDI(tel.value);tel.value=c?(c.br?formata(c.br):'+'+c.intl):formata(soNumero(tel.value));telAnt=c?(c.br||''):soNumero(tel.value)}
@@ -1773,7 +1791,7 @@ if(RM.matches){
      própria página com nome, e-mail e WhatsApp na URL (disabled também barra o
      Enter). Só libera com o handler acima já ligado, o que cobre ainda um erro de
      JS antes daqui. */
-  enviar.disabled=false;
+  enviar.disabled=EM_BREVE;
 })();
 
 /* menu mobile */

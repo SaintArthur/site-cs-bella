@@ -23,8 +23,18 @@ TMP=$(mktemp -d)
 trap 'rm -rf "$TMP"' EXIT
 node ferramentas/limpar-comentarios.js index.html "$TMP/index.html"
 
+# O cache-control NAO e opcional aqui. Sem ele o objeto sobe sem cabecalho de
+# cache nenhum, e o navegador inventa um: a regra heuristica guarda a pagina
+# por cerca de 10% do tempo decorrido desde o Last-Modified. Como o arquivo
+# anterior costuma ser de semanas atras, isso da DIAS de cache -- e um celular
+# que abriu o site antes da publicacao continua mostrando a versao velha, sem
+# revalidar, muito depois de a nova estar no ar. Foi o que aconteceu com o
+# aviso de "em breve" do CS Bella: no ar desde 22/10, invisivel no celular.
+# max-age=0 + must-revalidate: o navegador pode guardar, mas tem de perguntar
+# antes de usar; quando nada mudou a resposta e um 304 barato.
 aws s3 cp "$TMP/index.html" "s3://$BUCKET/index.html" --region "$REGIAO" \
-  --content-type "text/html; charset=utf-8"
+  --content-type "text/html; charset=utf-8" \
+  --cache-control "public, max-age=0, must-revalidate"
 aws s3 cp robots.txt "s3://$BUCKET/robots.txt" --region "$REGIAO" \
   --content-type "text/plain; charset=utf-8"
 aws s3 cp sitemap.xml "s3://$BUCKET/sitemap.xml" --region "$REGIAO" \
